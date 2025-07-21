@@ -7,10 +7,16 @@
     <link href="style.css" rel="stylesheet" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   </head>
-
   <body>
     <div id="root"></div>
-
+    <template id="episode-card">
+      <div class="episode-card">
+        <img src="" alt="episode image" />
+        <h1>name</h1>
+        <h2>S01E01</h2>
+        <p>Summary text of the episode</p>
+      </div>
+    </template>
     <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
     <script src="episodes.js"></script>
 
