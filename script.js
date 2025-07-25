@@ -5,7 +5,7 @@ function setup() {
 
 function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
-  // rootElem.innerHTML = "";
+  rootElem.innerHTML = "";
   // rootElem.textContent = `Got ${episodeList.length} episode(s)`;
 
   const episodeCards = episodeList.map(createEpisodeCard);
