@@ -8,14 +8,17 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   </head>
   <body>
-    <div id="root"></div>
+    <header>
+      <h1>TV Show Project</h1>
+    </header>
+    <main id="root"></main>
     <template id="episode-card">
-      <div class="episode-card">
+      <article class="episode-card">
         <img src="" alt="episode image" />
-        <h1>name</h1>
-        <h2>S01E01</h2>
+        <h2>Episode Title</h2>
+        <p>S01E01</p>
         <p>Summary text of the episode</p>
-      </div>
+      </article>
     </template>
     <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
     <script src="episodes.js"></script>
