@@ -20,7 +20,7 @@ body {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  width: 30%; /* Two per row with space in between */
+  width: 30%; /* Three per row with space in between */
   min-width: 250px;
   box-sizing: border-box;
   padding: 15px;
