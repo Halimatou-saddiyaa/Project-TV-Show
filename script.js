@@ -24,7 +24,7 @@ function createEpisodeCard(episode) {
   let episodeCode = "S" + seasonStr + "E" + episodeStr;
 
   // Replace the <h1> title element with a clickable link
-  const title = episodeCard.querySelector("h1");
+  const title = episodeCard.querySelector("h2");                   // Editing selector to match html element identifier 
   const titleLink = document.createElement("a");
   titleLink.href = episode.url;
   titleLink.textContent = episode.name;
@@ -33,7 +33,7 @@ function createEpisodeCard(episode) {
   title.replaceWith(titleLink);
 
   // Set the different elements within the card element
-  episodeCard.querySelector("h2").textContent = episodeCode;
+  episodeCard.querySelector("p").textContent = episodeCode;       // Selector was <h2>
   episodeCard.querySelector("img").src = episode.image?.medium;
   episodeCard.querySelector("img").alt = `Image from ${episode.name}`;
   episodeCard.querySelector("p").innerHTML = episode.summary;
