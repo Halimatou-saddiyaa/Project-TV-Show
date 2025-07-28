@@ -11,13 +11,18 @@
     <header>
       <h1>TV Show Project</h1>
     </header>
+    <div id="filter">
+    <label for="searchEpisodes">Search Episodes:</label>
+    <input id="searchEpisodes" type="text" placeholder="Search by keyword" />
+    <span id="match-number" type="number"></span>
+  </div>
     <main id="root"></main>
     <template id="episode-card">
       <article class="episode-card">
         <img src="" alt="episode image" />
         <h2>Episode Title</h2>
         <p>S01E01</p> 
-        <p></p>                   <!--removing placeholder text for minimal episode card content | 'Summary text of the episode'-->
+        <p></p>                  
       </article>
     </template>
     <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
