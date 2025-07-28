@@ -1,34 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TV Show Project | Halimatou (Halimatou-saddiyaa)</title>
-    <link href="style.css" rel="stylesheet" />
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-  </head>
-  <body>
-    <header>
-      <h1>TV Show Project</h1>
-    </header>
-    <div id="filter">
-    <label for="searchEpisodes">Search Episodes:</label>
-    <input id="searchEpisodes" type="text" placeholder="Search by keyword" />
-    <span id="match-number" type="number"></span>
-  </div>
-    <main id="root"></main>
-    <template id="episode-card">
-      <article class="episode-card">
-        <img src="" alt="episode image" />
-        <h2>Episode Title</h2>
-        <p>S01E01</p> 
-        <p></p>                  
-      </article>
-    </template>
-    <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
-    <script src="episodes.js"></script>
 
-    <!-- Loads YOUR javascript code -->
-    <script src="script.js"></script>
-  </body>
-</html> 
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TV Show Project | Halimatou (Halimatou-saddiyaa)</title>
+  <link href="style.css" rel="stylesheet" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+</head>
+
+<body>
+  <header>
+    <h1>TV Show Project</h1>
+  </header>
+  <section id="search-container">
+    <div>
+      <label for="selectEpisode">Select an Episode:</label>
+      <select id="selectEpisode">
+        <option value="all">-- Show all episodes --</option>
+      </select>
+    </div>
+    <div>
+      <label for="searchEpisodes">Search Episodes:</label>
+      <input id="searchEpisodes" type="text" placeholder="Search by keyword" />
+      <span id="match-number"></span>
+    </div>
+  </section>
+  <main id="root"></main>
+  <template id="episode-card">
+    <article class="episode-card">
+      <img src="" alt="episode image" />
+      <h2>Episode Title</h2>
+      <p class="episode-code">S01E01</p> <!--Assigned custom id names to differentiate similar <p> elements-->
+      <p class="episode-summary"></p>
+    </article>
+  </template>
+  <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
+  <script src="episodes.js"></script>
+
+  <!-- Loads YOUR javascript code -->
+  <script src="script.js"></script>
+</body>
+
+</html>
