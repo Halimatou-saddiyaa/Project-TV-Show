@@ -1,10 +1,27 @@
 let allEpisodes = [];
 
-function setup() {
-  allEpisodes = getAllEpisodes();
-  makePageForEpisodes(allEpisodes);
-  setupSearch();
-  episodeOptions(allEpisodes);                                                              // Fill dropdown with episodes
+async function setup() {
+  showLoadingMessage();
+
+  try {
+    const response = await fetch("https://api.tvmaze.com/shows/82/episodes");
+    if (!response.ok) {
+      throw new Error("Fetch request failed");
+    }
+
+    allEpisodes = await response.json();
+
+    removeLoadingMessage();
+    makePageForEpisodes(allEpisodes);
+    setupSearch();
+    episodeOptions(allEpisodes);
+    numberMatchingEpisodes(allEpisodes);
+  } catch (error) {
+    showErrorMessage(
+      "⚠️ Failed to load episodes. Please check your connection and try again."
+    );
+    console.error(error);
+  }
 }
 
 function makePageForEpisodes(episodeList) {
@@ -17,10 +34,11 @@ function makePageForEpisodes(episodeList) {
 }
 
 // Format season and episode number as two-digit strings and construct the episode code
-function formatEpisodeCode(episode) {                                                        // Moving to global scope for reusability and to avoid repetition (DRY principle) 
-  const seasonStr = episode.season.toString().padStart(2, "0");                              // Convert season to 2-digit string
-  const episodeStr = episode.number.toString().padStart(2, "0");                             // Convert episode number to 2-digit string
-  return "S" + seasonStr + "E" + episodeStr;                                                 // Create code like S01E01
+function formatEpisodeCode(episode) {
+  // Moving to global scope for reusability and to avoid repetition (DRY principle)
+  const seasonStr = episode.season.toString().padStart(2, "0"); // Convert season to 2-digit string
+  const episodeStr = episode.number.toString().padStart(2, "0"); // Convert episode number to 2-digit string
+  return "S" + seasonStr + "E" + episodeStr; // Create code like S01E01
 }
 
 // Create a card element for one episode
@@ -37,11 +55,12 @@ function createEpisodeCard(episode) {
   titleLink.target = "_blank";
   titleLink.rel = "noopener noreferrer";
 
-  title.textContent = "";                                                                     // Clear any existing content inside <h2>
-  title.appendChild(titleLink);                                                               // Changing replaceWith() because swapping to <a> breaks layout so insert link into <h2> for semantic structure                                                  
+  title.textContent = ""; // Clear any existing content inside <h2>
+  title.appendChild(titleLink); // Changing replaceWith() because swapping to <a> breaks layout so insert link into <h2> for semantic structure
 
   // Set the different elements within the card element
-  episodeCard.querySelector(".episode-code").textContent = formatEpisodeCode(episode);        // Distinguish <p> elements with unique class names to avoid extra <p> conflicts       
+  episodeCard.querySelector(".episode-code").textContent =
+    formatEpisodeCode(episode); // Distinguish <p> elements with unique class names to avoid extra <p> conflicts
   episodeCard.querySelector("img").src = episode.image?.medium;
   episodeCard.querySelector("img").alt = `Image from ${episode.name}`;
   episodeCard.querySelector(".episode-summary").innerHTML = episode.summary;
@@ -49,7 +68,7 @@ function createEpisodeCard(episode) {
   return episodeCard;
 }
 
-// Search functionality: live, case-insensitive search filtering 
+// Search functionality: live, case-insensitive search filtering
 function setupSearch() {
   const searchEpisodes = document.getElementById("searchEpisodes");
   searchEpisodes.addEventListener("input", filterByKeyword);
@@ -63,13 +82,13 @@ function filterByKeyword(event) {
     return episodeText.includes(inputValue);
   });
 
-  makePageForEpisodes(filteredEpisodes);                                                    // Show only filtered episodes on screen
-  numberMatchingEpisodes(filteredEpisodes);                                                 // Update match count display
+  makePageForEpisodes(filteredEpisodes); // Show only filtered episodes on screen
+  numberMatchingEpisodes(filteredEpisodes); // Update match count display
 }
 
 function numberMatchingEpisodes(filteredEpisodes) {
-  const matchingEpisodes = document.getElementById("match-number");                         // Get element to show match number
-  matchingEpisodes.textContent = `${filteredEpisodes.length} Episode(s) found`;             // Update text with count
+  const matchingEpisodes = document.getElementById("match-number"); // Get element to show match number
+  matchingEpisodes.textContent = `${filteredEpisodes.length} Episode(s) found`; // Update text with count
 }
 
 // Fill the dropdown selector with list of episodes
@@ -78,27 +97,43 @@ function episodeOptions(episodes) {
 
   episodes.forEach((episode, index) => {
     const episodeCode = formatEpisodeCode(episode);
-    const option = document.createElement("option");                                         // Dynamically add one <option> per episode into the dropdown
+    const option = document.createElement("option"); // Dynamically add one <option> per episode into the dropdown
 
-    option.value = episode.id;                                                               // Reference episode by unique object id
-    option.textContent = `${episodeCode} - ${episode.name}`;                                 // Format as "S01E01 - Title"
-    selector.appendChild(option);                                                            // Add to episode list dropdown
+    option.value = episode.id; // Reference episode by unique object id
+    option.textContent = `${episodeCode} - ${episode.name}`; // Format as "S01E01 - Title"
+    selector.appendChild(option); // Add to episode list dropdown
   });
 
-  selector.addEventListener("change", episodeListDisplay);                                   // Listener to trigger 'display' function to update page according to user interaction in episode dropdown 
+  selector.addEventListener("change", episodeListDisplay); // Listener to trigger 'display' function to update page according to user interaction in episode dropdown
 }
 
 // Display episode selection
 function episodeListDisplay(event) {
-  const selectedId = event.target.value;                                                     // Grab value of selected <option> in the dropdown.
+  const selectedId = event.target.value; // Grab value of selected <option> in the dropdown.
 
   if (selectedId === "all") {
-    makePageForEpisodes(allEpisodes);                                                        // Re-render full list when user selects 'Show all episodes'
-    numberMatchingEpisodes(allEpisodes);                                                     // Update to reflect full count
+    makePageForEpisodes(allEpisodes); // Re-render full list when user selects 'Show all episodes'
+    numberMatchingEpisodes(allEpisodes); // Update to reflect full count
   } else {
-    const selectedEpisode = allEpisodes.find(ep => ep.id == selectedId);                     // Get episode id
-    makePageForEpisodes([selectedEpisode]);                                                  // Show only the selected episode
-    numberMatchingEpisodes([selectedEpisode]);                                               // Update matching count
+    const selectedEpisode = allEpisodes.find((ep) => ep.id == selectedId); // Get episode id
+    makePageForEpisodes([selectedEpisode]); // Show only the selected episode
+    numberMatchingEpisodes([selectedEpisode]); // Update matching count
   }
 }
+
+function showLoadingMessage() {
+  const root = document.getElementById("root");
+  root.innerHTML = "<p id='loading'>Loading episodes...</p>";
+}
+
+function removeLoadingMessage() {
+  const loading = document.getElementById("loading");
+  if (loading) loading.remove();
+}
+
+function showErrorMessage(message) {
+  const root = document.getElementById("root");
+  root.innerHTML = `<p id="error" style="color: red;">${message}</p>`;
+}
+
 window.onload = setup;
