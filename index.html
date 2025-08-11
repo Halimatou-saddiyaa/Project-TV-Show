@@ -1,48 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TV Show Project | Halimatou (Halimatou-saddiyaa)</title>
-  <link href="style.css" rel="stylesheet" />
-  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-</head>
-<body>
-  <header>
-    <h1>TV Show Project</h1>
-  </header>
-
-  <section id="search-container">
-    <label for="selectShow">Select a Show:</label>
-    <select id="selectShow">
-      <option value="">Loading shows...</option>
-    </select>
-    <label for="selectEpisode">Select an Episode:</label>
-    <select id="selectEpisode">
-      <option value="all">-- Show all episodes --</option>
-    </select>
-    <div id="search-wrapper">
-      <label for="searchEpisodes">Search by TV Show or Episode Title:</label>
-      <input id="searchEpisodes" type="text" placeholder="Search by keyword" />
-      <span id="match-number"></span>
-    </div>
-  </section>
-
-  <main id="root"></main>
-  <template id="episode-card">
-    <article class="episode-card">
-      <img src="" alt="episode image" />
-      <h2>Episode Title</h2>
-      <p class="episode-code">S01E01</p>
-      <!--Assigned custom id names to differentiate similar <p> elements-->
-      <p class="episode-summary"></p>
-    </article>
-  </template>
-
-  <!-- Loads YOUR javascript code -->
-  <script src="script.js"></script>
-
-</body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TV Show Project | Halimatou (Halimatou-saddiyaa)</title>
+    <link href="style.css" rel="stylesheet" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <header>
+      <h1>TV Show Project</h1>
+      <!-- Search input for filtering TV shows -->
+      <div id="show-search-wrapper">
+        <label for="searchShows">Filtering for:</label>
+        <div id="show-dropdown-container">
+          <!-- Text input for searching shows by name, genre, or summary -->
+          <input
+            type="text"
+            id="searchShows"
+            placeholder="Search shows by name, genres, or summary"
+            autocomplete="off"
+          />
+          <!-- Dropdown to display filtered show suggestions -->
+          <div id="showDropdown" class="dropdown"></div>
+        </div>
+        <!-- Message displaying number of shows found -->
+        <span id="shows-found-message" class="shows-found-message"></span>
+      </div>
+      <!-- Section for episode search and filter controls, initially hidden -->
+      <section id="search-container" style="display: none">
+        <input
+          type="text"
+          id="searchEpisodes"
+          placeholder="Search episodes by name or summary"
+          autocomplete="off"
+        />
+        <!-- Dropdown to select specific episode or all episodes -->
+        <select id="selectEpisode">
+          <option value="all">All episodes</option>
+        </select>
+        <!-- Display number of matching episodes -->
+        <p id="match-number"></p>
+      </section>
+    </header>
+    <main>
+      <!-- Main content container where shows or episodes will be rendered -->
+      <div id="root"></div>
+    </main>
+    <!-- Template for an episode card to be cloned dynamically in JS -->
+    <template id="episode-card">
+      <article class="episode-card">
+        <img src="" alt="episode image" />
+        <h2>Episode Title</h2>
+        <p class="episode-code">S01E01</p>
+        <p class="episode-summary"></p>
+      </article>
+    </template>
+    <footer>
+      <p>
+        Data provided by
+        <a
+          href="https://www.tvmaze.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >TVMaze</a
+        >
+      </p>
+    </footer>
+    <script src="script.js"></script>
+  </body>
 </html>
