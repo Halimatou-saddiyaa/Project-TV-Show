@@ -1,83 +1,242 @@
-#root {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  padding: 0 10px;
+/* Basic reset and styling */
+* {
+  box-sizing: border-box;
 }
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  padding: 20px;
+  background: #f4f4f4;
+  padding: 1rem;
+  color: #333;
   margin: 0;
 }
 
+/* Header and Navigation*/
 header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-/* Episode card container */
-.episode-card {
-  background-color: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  width: 30%; /* Three per row with space in between */
-  min-width: 250px;
-  box-sizing: border-box;
-  padding: 15px;
-}
-
-#search-container {
-  background-color: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1rem;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 20px;
-  gap: 20px;
-  max-width: 1120px;
-  margin: 0 auto 30px auto;
-  align-items: flex-start;
+  align-items: center;
+  gap: 0.5rem;
 }
 
+header h1 {
+  flex-basis: 100%;
+  margin: 0 0 0.5rem 0;
+  text-align: center;
+}
+
+nav {
+  flex-grow: 1;
+}
+
+#nav-back {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  user-select: none;
+}
+
+#nav-back:hover {
+  background-color: #0056b3;
+}
+
+/*Search Inputs and Dropdowns*/
 #searchEpisodes,
-#selectEpisode,
-#selectShow {
-  padding: 10px;
+#selectEpisode {
+  flex: 1 1 100%;
+  max-width: 320px;
+  min-width: 140px;
+  padding: 0.4rem 0.8rem;
   font-size: 1rem;
-  flex: 1;
-  min-width: 360px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
-#search-container label {
-  font-weight: 600;
+/* Style for the show search input outside search-container */
+#searchShows {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.5rem 0.8rem;
   font-size: 1rem;
-  margin-bottom: 5px;
-  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
-#searchEpisodes {
-  max-width: 450px;
-}
-
-#match-number {
-  margin-left: 30px;
-  font-weight: 600;
-  font-size: 1rem;
-  margin-bottom: 5px;
-  color: #333;
-}
-
-#search-wrapper {
+#show-search-wrapper {
+  max-width: 420px;
+  width: 100%;
+  margin: 1rem auto;
   display: flex;
   align-items: center;
-  gap: 20px;
-  min-width: 360px;
+  gap: 1rem;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+#show-search-wrapper label {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #333;
+  white-space: nowrap;
+}
+
+.shows-found-message {
+  font-size: 0.9rem;
+  color: #555;
+  white-space: nowrap;
+}
+
+/* Container for shows dropdown */
+#show-dropdown-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+#showDropdown {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  width: 100%;
+  display: none;
+  z-index: 1000;
+  top: 100%;
+  left: 0;
+}
+
+.dropdown-item {
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #eee;
+}
+
+/* Shows and Episodes Listing */
+#shows-listing {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+#episodes-listing {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  justify-items: center;
+  margin: 0 auto;
+}
+
+/* Show and Episode Cards */
+.show-card,
+.episode-card {
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.show-card img,
+.episode-card img {
+  max-width: 100%;
+  border-radius: 6px;
+  margin-bottom: 0.6rem;
+}
+
+.show-card h2,
+.episode-card h2 {
+  font-size: 1.2rem;
+  margin: 0.3rem 0;
+  text-align: center;
+}
+
+.show-card h2.clickable {
+  color: #007bff;
+  cursor: pointer;
+  user-select: none;
+}
+
+.show-card h2.clickable:hover {
+  text-decoration: underline;
+}
+
+.show-card p,
+.episode-card p {
+  margin: 0.3rem 0;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.episode-code {
+  font-weight: bold;
+  color: #555;
+}
+
+.episode-summary {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+/* Loading and error messages */
+#loading,
+#error {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 3rem;
+}
+
+#error {
+  color: red;
+}
+
+/* Search Container Layout */
+#search-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  max-width: 600px;
+  margin: 1rem auto 2rem auto;
+}
+
+/* Match Number Display */
+#match-number {
+  flex-basis: 100%;
+  margin-top: 0.5rem;
+  text-align: center;
+  font-style: italic;
+  color: #555;
+}
+
+/* Footer Styles */
+footer {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 2rem;
+  padding: 1rem 0;
+}
+
+footer a {
+  color: inherit;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
 }
